@@ -1,0 +1,47 @@
+
+
+<h1> &lt;   Week  &gt;   </h1>
+<select (change)='selectChangeHandler($event)'  >
+        <option value="0">-----</option>
+            <option *ngFor="let emplyee of employees" [value]="emplyee.id">
+                    {{emplyee.name}}
+                  </option>
+                  </select>
+
+                  <br/>
+                  <br/>
+                  <br/>
+<table class="table" *ngIf="showtable">
+
+    <tr>
+        <th>Task Name</th>
+
+        <th  *ngFor="let header of firstRecord">{{header.logDate | date:'EEEE'}}</th>
+        
+    </tr>
+    <tr *ngFor="let sheet of tasks">
+        <td>{{sheet.name}}</td>
+        <td *ngFor="let timesheet of sheet.timesheetLog" > <input type="text" [(ngModel)]="timesheet.effort" > </td>
+         </tr>
+    <tr>
+        <td>Total</td>
+        <td *ngFor="let header of firstRecord"> {{getSum(header.logDate)}}  </td>
+        
+       
+    </tr>
+     //working on sum function in component
+</table>
+
+
+<input type="button" value="Save" (click)="SaveTimesheet()" *ngIf="showtable" />
+
+
+
+                  
+
+
+
+             
+
+
+  

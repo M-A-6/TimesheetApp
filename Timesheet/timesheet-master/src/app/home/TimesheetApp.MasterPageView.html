@@ -1,0 +1,38 @@
+
+
+
+<table border="1" style="width:800px; font-family:Arial">
+        <tr>
+            <td colspan="2" style="text-align:center">
+                <h3>Time sheet Application</h3>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:200px">
+               <h3>Menu</h3>
+               <a [routerLink]="['Home']">Home</a><br><br>
+               <a [routerLink]="['Employee']">Employee List</a><br><br>
+               <a [routerLink]="['Timesheet']">Time Sheet Log</a><br><br>
+               
+            </td>
+            <td style="width:600px;height:900px;">
+                    <router-outlet></router-outlet>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align:center; font-size:x-small">
+                <h3> Footer</h3>
+            </td>
+        </tr>
+    </table>
+
+
+  
+
+
+
+
+
+
+
+
