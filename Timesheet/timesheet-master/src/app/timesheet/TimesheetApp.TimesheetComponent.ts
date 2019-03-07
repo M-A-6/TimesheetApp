@@ -87,19 +87,19 @@ export class TimeSheetComponent implements OnInit {
       }
 
       getSum(dayVal)
-      {
-       
-        // working on calcution(need to fix)
-        this.recordVal = this.tasks.map(timesheet=>timesheet.timesheetLog);
-        this.dateFilter = this.recordVal.filter(day=>{
-         return day.logDate == dayVal ;
-        } );
-    
-            
-        
-
-    
-        return '';
+      {       
+        let sum=0;
+        for (let task of this.tasks)
+        {
+          for(let log of task.timesheetLog)
+          {
+              if(log.logDate==dayVal)
+              {
+                sum= Number(log.effort)+ Number(sum);
+              }             
+          }
+        }
+        return sum;
       }
  
 }
