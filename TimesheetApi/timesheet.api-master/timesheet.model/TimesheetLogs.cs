@@ -23,5 +23,7 @@ namespace timesheet.model
 
         [Required]
         public double Effort { get; set; }
+
+        public Employee employee { get; set; }      
     }
 }

@@ -20,7 +20,9 @@ namespace timesheet.model
         [Required]
         public int TaskId { get; set; }
 
-        public Employee Employe { get; set; }
+        public Employee Employee { get; set; }
+
+        public Task Task { get; set; }
     }
 }
 

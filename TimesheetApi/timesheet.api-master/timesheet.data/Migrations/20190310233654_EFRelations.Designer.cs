@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using timesheet.data;
 
 namespace timesheet.data.Migrations
 {
     [DbContext(typeof(TimesheetDb))]
-    partial class TimesheetDbModelSnapshot : ModelSnapshot
+    [Migration("20190310233654_EFRelations")]
+    partial class EFRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,10 +51,6 @@ namespace timesheet.data.Migrations
                     b.Property<int>("TaskId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("TaskId");
 
                     b.ToTable("EmployeeTask");
                 });
@@ -98,19 +96,6 @@ namespace timesheet.data.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("TimesheetLog");
-                });
-
-            modelBuilder.Entity("timesheet.model.EmployeeTasks", b =>
-                {
-                    b.HasOne("timesheet.model.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("timesheet.model.Task", "Task")
-                        .WithMany()
-                        .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("timesheet.model.Task", b =>
