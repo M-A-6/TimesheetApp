@@ -28,7 +28,7 @@ namespace timesheet.api.controllers
         }
 
         // POST: api/Valid
-        [HttpPost("postreq")]
+        [HttpPost("savetimesheet")]
         public void Post([FromBody] List<vwEmployeeWeeklyTasks> timesheet)
         {
            this.timesheetService.saveTimesheetLog(timesheet);

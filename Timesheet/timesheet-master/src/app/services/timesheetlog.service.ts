@@ -12,7 +12,7 @@ export class TimesheetLogService {
     }
 
     saveTimesheetLogs(selectedval) {
-        return this.http.post(this.baseapi + "/timesheetlog/postreq/",selectedval
+        return this.http.post(this.baseapi + "/timesheetlog/savetimesheet/",selectedval
         );
     }
 
