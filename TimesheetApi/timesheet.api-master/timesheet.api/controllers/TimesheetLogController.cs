@@ -20,11 +20,10 @@ namespace timesheet.api.controllers
             this.timesheetService = timesheetService;
         }
 
-        [HttpGet("getall/{employeeId}")]
-        public List<vwEmployeeWeeklyTasks> GetAll(int employeeId)
-        {
-            
-            var items = this.timesheetService.getTimesheetlogValues(employeeId,DateTime.Now);
+        [HttpPost("getall")]
+        public List<vwEmployeeWeeklyTasks> GetAll([FromBody] TimesheetLogs timesheetlog)
+        {   
+            var items = this.timesheetService.getTimesheetlogValues(timesheetlog.EmployeeId, timesheetlog.LogDate);
             return items;
         }
 
@@ -32,10 +31,7 @@ namespace timesheet.api.controllers
         [HttpPost("postreq")]
         public void Post([FromBody] List<vwEmployeeWeeklyTasks> timesheet)
         {
-
            this.timesheetService.saveTimesheetLog(timesheet);
-
-
         }
     }
 }

@@ -8,7 +8,7 @@ export class TimesheetLogService {
     constructor(private http: HttpClient) { }
 
     getallTimesheetLogs(selectedval) {
-        return this.http.get(this.baseapi + "/timesheetlog/getall/"+selectedval);
+        return this.http.post(this.baseapi + "/timesheetlog/getall/",selectedval );
     }
 
     saveTimesheetLogs(selectedval) {

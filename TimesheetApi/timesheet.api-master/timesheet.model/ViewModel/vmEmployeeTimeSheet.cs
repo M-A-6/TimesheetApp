@@ -11,5 +11,6 @@ namespace timesheet.model
     public class vmEmployeeTimeSheet : Employee
     {
         public double weeklyEffort;
+        public int rowId;
     }
 }

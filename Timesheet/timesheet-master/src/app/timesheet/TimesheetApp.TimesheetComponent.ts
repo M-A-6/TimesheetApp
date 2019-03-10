@@ -1,86 +1,71 @@
 import { Component, OnInit } from '@angular/core';
 import { EmployeeService } from '../services/employee.service';
-import { TaskService } from '../services/task.service';
 import { TimesheetLogService } from '../services/timesheetlog.service';
-import { DatePipe } from '@angular/common';
-
-
-
 
 @Component({
-    
     templateUrl: 'TimesheetApp.TimesheetView.html',
-    styleUrls:['./TimesheetApp.TimesheetStyle.scss']
-    
+    styleUrls:['../employee/employee.component.scss']
+    //used employee scss file because, can use same css
+    //use boot strap
 })
-
-
-
 
 export class TimeSheetComponent implements OnInit {
    
-    selectedVal:string;
+    selectedEmployeeID:string;
+    selectedDate:Date;
     employees: any;
     firstRecord:any;
-    tasks:any;
-    recordVal:any;
-    dateFilter:any;
+    tasks:any;    
     showtable:boolean;
-    //TotalRecord: Array<DaysTotal> = new Array<DaysTotal>();
-    //pipe = new DatePipe('EEEE');
-  
+
+    
+
     constructor(private employeeService: EmployeeService,private  timesheetlog:TimesheetLogService) { }
 
     ngOnInit() {
+        
         this.employeeService.getallemployees().subscribe(data => {
             this.employees = data;
         });
-        this.timesheetlog.getallTimesheetLogs(0).subscribe(data => {
-            this.tasks = data;
-        });
+        //this.timesheetlog.getallTimesheetLogs(0).subscribe(data => {
+        //    this.tasks = data;
+        //});
         this.showtable=false;
-     //   this.TotalRecord.push(new DaysTotal(1,0));
-      //  this.TotalRecord.push(new DaysTotal(2,0));
-      //  this.TotalRecord.push(new DaysTotal(3,0));
-      //  this.TotalRecord.push(new DaysTotal(4,0));
-     //   this.TotalRecord.push(new DaysTotal(5,0));
-      //  this.TotalRecord.push(new DaysTotal(6,0));
-      //  this.TotalRecord.push(new DaysTotal(7,0));
+        this.selectedDate = new Date();
     }
     selectChangeHandler (event: any)
     {
-        this.selectedVal= event.target.value;
-        if(this.selectedVal!="0")
+        this.selectedEmployeeID= event.target.value;
+        if(this.selectedEmployeeID!="0")
           this.showtable=true;
-          else
+        else
           this.showtable=false;
 
-         this.loadTimesheetLog(this.selectedVal);
+         this.loadTimesheetLog(this.selectedEmployeeID);
     }
 
     loadTimesheetLog(slectedVal:string)
     {
-        this.timesheetlog.getallTimesheetLogs(slectedVal).subscribe(data => {
+        this.tasks= null;
+        var timesheetlogFor:any={};
+        timesheetlogFor.EmployeeId =this.selectedEmployeeID;
+        timesheetlogFor.LogDate = this.selectedDate;
+        timesheetlogFor.Id=0;
+        timesheetlogFor.TaskId=0;
+        timesheetlogFor.Effort=0;
+
+        this.timesheetlog.getallTimesheetLogs(timesheetlogFor).subscribe(data => {
             this.tasks = data;
             this.firstRecord= this.tasks[0].timesheetLog;
         });
     }
     SaveTimesheet()
     {
-        
- 
-    
-    this.timesheetlog.saveTimesheetLogs(this.tasks).subscribe(res=>this.Success(res),
-    res=>this.Error(res));
-
-    //this.loadTimesheetLog(this.selectedVal);
-   
+        this.timesheetlog.saveTimesheetLogs(this.tasks).subscribe(res=>this.Success(res),
+        res=>this.Error(res));
     }
-
     Error(res) {
         console.debug(res);
-
-    
       }
       Success(res) {
         console.debug(res);
@@ -96,10 +81,35 @@ export class TimeSheetComponent implements OnInit {
               if(log.logDate==dayVal)
               {
                 sum= Number(log.effort)+ Number(sum);
-              }             
+              }
           }
         }
         return sum;
+      } 
+
+      setNextWeek()
+      {
+       this.selectedDate.setDate( this.selectedDate.getDate() + 7 );
+       this.loadTimesheetLog(this.selectedEmployeeID);
       }
- 
+      setPreviousWeek()
+      {
+        this.selectedDate.setDate( this.selectedDate.getDate() - 7 );
+        this.loadTimesheetLog(this.selectedEmployeeID);
+      }
+      getNextWeek()
+      {
+          var nextweekDate:Date;
+          nextweekDate=new Date(); 
+          nextweekDate.setDate(this.selectedDate.getDate() + 6 );
+          return nextweekDate;
+      }
+      getCurrentWeekDate()
+      {
+        var currentDate:Date;
+        currentDate=new Date(); 
+        currentDate.setDate(this.selectedDate.getDate() );
+        
+        return currentDate;
+      }
 }

@@ -5,7 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Remove="Properties\PublishProfiles\testapp23 - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\timesheet24 - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\timesheettestapp22 - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\timesheettestapplication - Web Deploy.pubxml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="wwwroot\" />
+    
   </ItemGroup>
 
   <ItemGroup>

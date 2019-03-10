@@ -46,8 +46,8 @@ namespace timesheet.api
         {
 
             app.UseCors("CorsPolicy");
-            if (env.IsDevelopment())
-            {
+            //if (env.IsDevelopment())
+            //{
                 app.UseStaticFiles();
                 app.UseDeveloperExceptionPage( );  
                 app.UseDefaultFiles();
@@ -57,7 +57,7 @@ namespace timesheet.api
                         routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}");
                   }
                     );
-            }
+            //}
 
         }
     }

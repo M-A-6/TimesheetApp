@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using timesheet.data;
 using timesheet.model;
+using Microsoft.EntityFrameworkCore;
 
 namespace timesheet.business
 {
@@ -21,24 +22,23 @@ namespace timesheet.business
         }
         public List<vmEmployeeTimeSheet> GetEmployeesWithEfforts()
         {
-            var log = (from empTask in this.db.EmployeeTask
-                       join emp in this.db.Employees on empTask.EmployeeId equals emp.Id
-                       join task in this.db.Tasks on empTask.TaskId equals task.Id
-                       join timesheetLog in this.db.TimesheetLog on emp.Id equals timesheetLog.EmployeeId
-                       into leftTimesheetTable
-                       from lineLeftTimeesheet in leftTimesheetTable.DefaultIfEmpty()
-                       where lineLeftTimeesheet.LogDate >= DateTime.Now && lineLeftTimeesheet.LogDate <= DateTime.Now.AddDays(7)
-                             
+
+
+            var log = (from emp in this.db.Employees
+                       join timesheet in this.db.TimesheetLog.FromSql("sp_EmployeeWeeklyEfforts {0}", DateTime.Now.ToString("yyyyMMdd")).ToList()
+                       on emp.Id equals timesheet.EmployeeId                      
+                       into timesheetLeftTable
+                       from linetimesheetLeftTable in timesheetLeftTable.DefaultIfEmpty()
                        select new vmEmployeeTimeSheet
                        {
+
                            Id = emp.Id,
                            Name = emp.Name,
                            Code = emp.Code,
-                           weeklyEffort = lineLeftTimeesheet.Effort
+                           rowId = linetimesheetLeftTable.Id,
+                           weeklyEffort = linetimesheetLeftTable.Effort
                        }).ToList<vmEmployeeTimeSheet>();
-
-
-            return log.GroupBy(empId => empId.Id).Select(effort => new vmEmployeeTimeSheet
+            return log.GroupBy(empId => empId.Name).Select(effort => new vmEmployeeTimeSheet
             {
                 Id = effort.First().Id,
                 Code = effort.First().Code,
@@ -46,9 +46,6 @@ namespace timesheet.business
                 weeklyEffort = effort.Sum(ef => ef.weeklyEffort),
 
             }).ToList();
-
-
         }
     }
-
 }

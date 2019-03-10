@@ -1,4 +1,5 @@
-<h1>Employee List</h1>
+<h1>Employee List({{getCurrentWeek() | date: 'dd-MM-yyyy'}} - {{addDays(6)  | date: 'dd-MM-yyyy'}}) </h1>
+
 <table class="table">
     <tr>
         <th>ID</th>
@@ -12,8 +13,9 @@
         <td>{{item.code}}</td>
         <td>{{item.name}}</td>
         <td>{{item.weeklyEffort}}</td>
-        <td></td>
+        <td>{{item.weeklyEffort/7 | number : '1.2-2'}}</td>
     </tr>
 </table>
 
-need left join (time issue is required to fix)
+
+<img id="spinner" *ngIf="!employees" src="../assets/spinner1.gif" class="img-responsive" width="50px" height="50px" />

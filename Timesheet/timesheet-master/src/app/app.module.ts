@@ -8,8 +8,7 @@ import { EmployeeService } from './services/employee.service';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    EmployeeListComponent
+    AppComponent    
   ],
   imports: [
     BrowserModule,

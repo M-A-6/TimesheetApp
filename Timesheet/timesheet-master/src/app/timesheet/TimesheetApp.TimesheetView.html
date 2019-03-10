@@ -1,42 +1,64 @@
+<br/>
+<br/>
+<br/>
+<br/>
+<table class="table-responsive">   
+   <tr>
+       <td>
+            Select Employee :   
+       </td>
+       <td>
+          <select (change)='selectChangeHandler($event)'  class="select-width" >
+               <option value="0">-----</option>
+                    <option *ngFor="let emplyee of employees" [value]="emplyee.id">
+                        {{emplyee.name}}
+                </option>
+          </select>
+       </td>
+   </tr>
+</table>
+<br/>
+<br/>
+<h1 *ngIf="showtable">
 
+<ul class="pager"  >
+    <li class="previous"><input class="btn btn-primary btn-xm"  (click)="setPreviousWeek()"  value="<    Previous" /></li>
+    <li class="primary">    Weeks  </li>
 
-<h1> &lt;   Week  &gt;   </h1>
-<select (change)='selectChangeHandler($event)'  >
-        <option value="0">-----</option>
-            <option *ngFor="let emplyee of employees" [value]="emplyee.id">
-                    {{emplyee.name}}
-                  </option>
-                  </select>
+    <li class="next">   <input class="btn btn-primary btn-xm" (click)="setNextWeek()" value="Next    >" /></li>        
+</ul>
+<div class="pager">
 
-                  <br/>
-                  <br/>
-                  <br/>
-<table class="table" *ngIf="showtable">
-
-    <tr>
+    ( {{getCurrentWeekDate() | date : 'dd-MM-yyyy'}} - {{getNextWeek() | date : 'dd-MM-yyyy'}} )   
+</div>
+</h1>
+<br/>
+<br/>                  
+<div class="table-responsive">
+<table class="table table-bordered" *ngIf="showtable">
+   <thead>
+      <tr>
         <th>Task Name</th>
-
-        <th  *ngFor="let header of firstRecord">{{header.logDate | date:'EEEE'}}</th>
-        
-    </tr>
+        <th  *ngFor="let header of firstRecord">{{header.logDate | date:'EEEE'}}</th>        
+      </tr>
+    </thead>
+    <tbody>
     <tr *ngFor="let sheet of tasks">
         <td>{{sheet.name}}</td>
         <td *ngFor="let timesheet of sheet.timesheetLog" > <input type="text" [(ngModel)]="timesheet.effort" > </td>
-         </tr>
-    <tr>
-        <td>Total</td>
-        <td *ngFor="let header of firstRecord"> {{getSum(header.logDate)}}  </td>
-        
-       
     </tr>
-
+    <tr>    
+        <td><strong>Total</strong></td>
+        <td *ngFor="let header of firstRecord"><strong> {{getSum(header.logDate)}} </strong> </td>
+    </tr>
+</tbody>
 </table>
+</div>
+<ul class="pager">
+    <li class="next"><a href="../Employee">Back to List</a></li>
+    <li><input type="button" value="   Save   " (click)="SaveTimesheet()" *ngIf="showtable && tasks" class="btn btn-primary"/></li>
+</ul>
 
+<img id="spinner" *ngIf="!employees" src="../assets/spinner1.gif" class="img-responsive" width="50px" height="50px" />
+<img id="spinner" *ngIf="!tasks && selectedVal>0" src="../assets/spinner1.gif" class="img-responsive" width="50px" height="50px" />
 
-<input type="button" value="Save" (click)="SaveTimesheet()" *ngIf="showtable" />
-
-
-
-
-
-  
