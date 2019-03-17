@@ -47,7 +47,7 @@
     </tr>
     <tr>    
         <td><strong>Total</strong></td>
-        <td *ngFor="let header of firstRecord"><strong> {{getSum(header.logDate)}} </strong> </td>
+        <td *ngFor="let header of firstRecord"><strong> {{ firstRecord ? getSum(header.logDate) : 0}} </strong> </td>
     </tr>
 </tbody>
 </table>

@@ -74,8 +74,10 @@ export class TimeSheetComponent implements OnInit {
       getSum(dayVal)
       {       
         let sum=0;
-        for (let task of this.tasks)
+        if(this.tasks)
         {
+         for (let task of this.tasks)
+         {
           for(let log of task.timesheetLog)
           {
               if(log.logDate==dayVal)
@@ -83,6 +85,7 @@ export class TimeSheetComponent implements OnInit {
                 sum= Number(log.effort)+ Number(sum);
               }
           }
+         }
         }
         return sum;
       } 
